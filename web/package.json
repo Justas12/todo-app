@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mongodb": "^3.5.4",
+    "mongoose-auto-increment": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
