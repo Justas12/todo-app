@@ -1,41 +1,66 @@
 const express = require("express");
 const Todo = require("../../db/todoModel").Todo;
+const createTodo = require("../../db/todoModel").createTodo;
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  if (Todo) {
-    Todo.find()
-      .then(todos => res.status(200).send(todos))
-      .catch(rr => res.status(400).send(err));
-  }
-  res.send("todos");
+  Todo.find()
+    .then(todos => res.status(200).send(todos))
+    .catch(rr => res.status(400).send(err.message));
 });
 
 router.get("/:id", (req, res) => {
   const id = req.params.id;
-  Todo.find({ _id: id })
-    .then(todos => res.status(200))
-    .send(todos)
-    .catch(err => res.status(400).send(err));
+  Todo.findById(id, (err, todo) => {
+    if (err) {
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(todo);
+    }
+  });
 });
 
 router.post("/", (req, res) => {
-  const todo = new Todo({
-    text: req.body.text,
-    due: req.body.due || undefined
-  });
+  console.log(req.body);
+  const todo = createTodo(req.body.params);
   todo
     .save(todo)
-    .then(newTodo => res.status(200).send(newTodo))
+    .then(newTodo =>
+      res.status(200).send(`successufully created object: ${id}`)
+    )
     .catch(err => res.status(400).send(err));
+});
+
+router.put("/:id", (req, res) => {
+  Todo.findByIdAndUpdate(id, req.body, (err, todo) => {
+    if (err) {
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(`successufully updated object: ${id}`);
+    }
+  });
+});
+
+router.delete("/", (req, res) => {
+  Todo.deleteMany({}, (err, todo) => {
+    if (err) {
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(`successufully deleted all objects!`);
+    }
+  });
 });
 
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
-  Todo.findByIdAndDelete({ _id: id })
-    .then(deletedOrder => res.status(200).send(deletedOrder))
-    .catch(err => res.status(400).send(err));
+  Todo.findByIdAndDelete(id, (err, todo) => {
+    if (err) {
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(`successufully deleted object: ${id}`);
+    }
+  });
 });
 
 module.exports = router;
