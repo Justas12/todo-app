@@ -17,7 +17,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongodb": "^3.5.4",
-    "mongoose": "^4.13.20",
+    "mongoose": "^5.7.5",
     "mongoose-auto-increment": "^5.0.1"
   },
   "devDependencies": {
