@@ -1,0 +1,13 @@
+version: "3"
+services: 
+    web:
+        image: docker-node-mongo
+        build: ./web
+        command: "npm start"
+        ports: 
+            - "80:80"
+        depends_on: 
+						- "db"
+				restart: on-failure
+		db:
+			image: "mongo"
