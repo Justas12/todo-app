@@ -32,16 +32,13 @@ router.get("/:id", (req, res) => {
       if (todo) {
         res.status(200).send(todo);
       }
-      else {
-        res.status(404).send('not found');
-      }
     })
     .catch(err => {
       if (err.message instanceof mongoose.Error.CastError) {
         res.status(400).send('bad request');
       }
       else {
-        res.status(500).send('error fetching data from database');
+        res.status(404).send('not found');
       }
     });
 });
@@ -53,7 +50,7 @@ router.post("/", (req, res) => {
     todo
       .save(todo)
       .then(newTodo =>
-        res.status(201).send(`successufully created object: ${id}`)
+        res.status(201).send(`successufully created object: ${todo}`)
       )
       .catch(err => {
         if (err.message instanceof mongoose.Error.CastError) {
@@ -65,7 +62,7 @@ router.post("/", (req, res) => {
       });
   }
   else {
-    res.status(400).send(`could not create object`);
+    res.status(400).send(`could not create object: 'text' property is missing`);
   }
 });
 
@@ -77,10 +74,10 @@ router.put("/:id", (req, res) => {
         res.status(400).send('bad request');
       }
       else {
-        res.status(500).send('error saving data to database');
+        res.status(404).send('not found');
       }
     } else {
-      res.status(200).send(`successufully updated object: ${id}`);
+      res.status(200).send(`successufully updated object: ${todo}`);
     }
   });
 });
@@ -92,10 +89,15 @@ router.delete("/", (req, res) => {
         res.status(400).send('bad request');
       }
       else {
-        res.status(500).send('error deleting data from database');
+        res.status(404).send('not found');
       }
     } else {
-      res.status(200).send(`successufully deleted all objects!`);
+      if (todo) {
+        res.status(200).send(`successufully deleted all objects!`);
+      }
+      else {
+        res.status(404).send('no objects found');
+      }
     }
   });
 });
@@ -108,12 +110,19 @@ router.delete("/:id", (req, res) => {
         res.status(400).send('bad request');
       }
       else {
-        res.status(500).send('error deleting data from database');
+        res.status(404).send('not found');
       }
     } else {
-      res.status(200).send(`successufully deleted object: ${id}`);
+      if (todo) {
+        res.status(200).send(`successufully deleted object: ${todo}`);
+      }
+      else {
+        res.status(404).send('not found');
+      }
     }
   });
 });
+
+router.all((req, res, next) => res.status(405).send('Method Not Allowed'));
 
 module.exports = router;
