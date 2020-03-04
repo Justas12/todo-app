@@ -11,7 +11,13 @@ const todoSchema = mongoose.Schema(
   }
 );
 
-const createTodo = details => new Todo({ ...details, completed: false });
+const createTodo = details => {
+	if(details.text) {
+		return new Todo({ ...details, completed: false });
+	} else {
+		return undefined;
+	}
+}
 
 const Todo = mongoose.model("todo", todoSchema);
 module.exports = { Todo, createTodo };

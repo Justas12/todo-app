@@ -1,18 +1,18 @@
 const express = require("express");
 const todosRouter = require("./routes");
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser')
 const createTodo = require("../db/todoModel").createTodo;
 
 const app = express();
 const port = process.env.PORT || 3000;
 const DB_URI = "mongodb://db:27017/todo-app";
 
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true
-  })
-);
+const jsonParser = bodyParser.json();
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+app.use(urlencodedParser);
+app.use(jsonParser);
 
 app.use("/todos", todosRouter);
 app.get("/", (req, res) => {

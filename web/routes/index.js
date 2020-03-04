@@ -23,16 +23,22 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   console.log(req.body);
-  const todo = createTodo(req.body.params);
-  todo
-    .save(todo)
-    .then(newTodo =>
-      res.status(200).send(`successufully created object: ${id}`)
-    )
-    .catch(err => res.status(400).send(err));
+  const todo = createTodo(req.body);
+  if (todo) {
+    todo
+      .save(todo)
+      .then(newTodo =>
+        res.status(200).send(`successufully created object: ${id}`)
+      )
+      .catch(err => res.status(400).send(err));
+  }
+  else {
+    res.status(400).send(`could not create object`);
+  }
 });
 
 router.put("/:id", (req, res) => {
+  const id = req.params.id;
   Todo.findByIdAndUpdate(id, req.body, (err, todo) => {
     if (err) {
       res.status(400).send(err.message);
