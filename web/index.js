@@ -1,12 +1,12 @@
 const express = require("express");
-const todosRouter = require("./routes");
+const routes = require("./routes");
 const mongoose = require("mongoose");
-const bodyParser = require('body-parser')
-const createTodo = require("../db/todoModel").createTodo;
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = process.env.PORT || 3000;
-const DB_URI = "mongodb://db:27017/todo-app";
+
+const port = process.env.PORT || 5000;
+const DB_URI = process.env.DB_URI || "mongodb://db:27017/todo-app";
 
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -14,24 +14,12 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(urlencodedParser);
 app.use(jsonParser);
 
-app.use("/todos", todosRouter);
-app.get("/", (req, res) => {
-  res.send("To view todos, please visit /todos");
-});
+app.use("/todos", routes.todosRouter);
+app.use("/", routes.mainRouter);
 
 mongoose
   .connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    const todo = createTodo({
-      text: "todo1",
-      due: Date.now()
-    });
-    todo.save(err => {
-      if (err) {
-        console.log(`DB Error: ${err.message}`);
-        return;
-      }
-    });
     console.log("APP IS RUNNING!");
     app.listen(port, () =>
       console.log(`Listening on http://127.0.0.1:${port}`)
