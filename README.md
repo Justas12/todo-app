@@ -30,7 +30,7 @@ In browser: http://localhost (port 80)
 #### POST
 
 ```
-// creates an entry with existing patient id
+// creates an entry with specified patient id
 {
   "text": "example1",
   "patient": 123
