@@ -1,4 +1,6 @@
 version: "3"
+networks:
+  mynetwork:
 services:
   web:
     image: docker-node-mongo
@@ -6,9 +8,20 @@ services:
     ports:
       - "80:80"
     depends_on:
+      - "patients"
       - "db"
+    networks:
+      - mynetwork
     restart: on-failure
+  patients:
+    build:
+      context: patients
+      dockerfile: Dockerfile
+    networks:
+      - mynetwork
   db:
     image: "mongo"
     ports:
       - "27017:27017"
+    networks:
+      - mynetwork

@@ -11,7 +11,14 @@ const todoSchema = mongoose.Schema(
       required: true,
       default: false
     },
-    due: Date
+    due: {
+      type: Date,
+      required: false
+    },
+    patient: {
+      type: Number,
+      required: true
+    }
   },
   {
     versionKey: false

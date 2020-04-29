@@ -1,0 +1,3 @@
+[submodule "patients"]
+	path = patients
+	url = https://github.com/AurimasMichnevicius/Patient-Crud

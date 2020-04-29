@@ -20,16 +20,19 @@ const data = [
     model: "todo",
     documents: [
       {
-        text: "zaza1",
-        due: "2021-08-09"
+        text: "gydymas1",
+        due: "2021-08-09",
+        patient: 1
       },
       {
-        text: "zaza2",
-        due: "2022-12-01"
+        text: "gydymas2",
+        due: "2022-12-01",
+        patient: 2
       },
       {
-        text: "zaza3",
-        due: "2222-02-20"
+        text: "gydymas3",
+        due: "2222-02-20",
+        patient: 3
       }
     ]
   }
