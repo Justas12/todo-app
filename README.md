@@ -27,10 +27,9 @@ In browser: http://localhost (port 80)
 
 
 ### Examples
+#### POST
 
 ```
-POST
-
 // creates an entry with existing patient id
 {
   "text": "example1",
