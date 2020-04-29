@@ -26,13 +26,15 @@ In browser: http://localhost (port 80)
 </pre>
 
 
-### POST:
+### POST
 ```
+// creates an entry with existing patient id
 {
   "text": "example1",
   "patient": 123
 }
 
+// creates new patient in patients database and then creates an entry with new patient id
 {
   "text": "example2",
   "patient": {
