@@ -5,7 +5,34 @@ exports.getTodos = (req, res) => {
 		if (err) {
 			res.status(500).send(err.message);
 		} else if (result) {
-			res.status(200).send(result);
+			let obj = [];
+			if (req.query.expand === 'patient') {
+					result.map(el => {
+						const rp = require("request-promise");
+			      var options = {
+			        method: "GET",
+			        uri: "http://patients:8080/api/v1/patients/" + el.patient,
+			      };
+		        rp(options)
+		          .then(function (data) {
+		            data = JSON.parse(data);
+		            el.patient = data;
+		            obj.push(el);
+		          })
+		          .catch(function (err) {
+		            // res.status(err.statusCode).send(err.error.message);
+		            console.log(err);
+		            res.status(200).send(obj);
+		            // obj.push(el);
+		          });
+						});
+			}
+			else {
+				obj = result;
+			}
+			setTimeout(() => {
+				res.status(200).send(obj);
+			}, 500);
 		} else {
 			res.status(404).send("not found");
 		}
@@ -46,7 +73,19 @@ exports.addTodo = (req, res) => {
 				});
 			})
 		.catch(function (err) {
-			res.status(err.statusCode).send(err.error.message);
+			//res.status(err.statusCode).send(err.error.message);
+			req.body.patient = 1;
+			const todo = new Todo(req.body);
+			todo.save((err, result) => {
+				if (err) {
+					res.status(500).send(err.message);
+				} else if (result) {
+					res.set("Location", "localhost/todos/".concat(result._id));
+					res.status(201).send(`successufully saved object: ${result}`);
+				} else {
+					res.status(400).send("bad request");
+				}
+			});
 		});
 	}
 	else {
@@ -93,7 +132,9 @@ exports.getTodo = (req, res) => {
             res.status(200).send({ todo: result, patient: data });
           })
           .catch(async function (err) {
-            res.status(err.statusCode).send(err.error.message);
+            // res.status(err.statusCode).send(err.error.message);
+            console.log(err);
+            res.status(200).send(result);
           });
 		} else {
 			console.log(result);

@@ -16,8 +16,9 @@ const todoSchema = mongoose.Schema(
       required: false
     },
     patient: {
-      type: Number,
-      required: true
+      type: mongoose.Schema.Types.Mixed,
+      required: true,
+      default: 1
     }
   },
   {
