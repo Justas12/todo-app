@@ -26,7 +26,9 @@ In browser: http://localhost (port 80)
 </pre>
 
 
-### POST
+### Examples
+
+## POST
 ```
 // creates an entry with existing patient id
 {
