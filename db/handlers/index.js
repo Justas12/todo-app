@@ -5,7 +5,6 @@ exports.getTodos = (req, res) => {
 		if (err) {
 			res.status(500).send(err.message);
 		} else if (result) {
-			let obj = [];
 			if (req.query.expand === 'patient') {
 					result.map(el => {
 						const rp = require("request-promise");
@@ -17,22 +16,16 @@ exports.getTodos = (req, res) => {
 		          .then(function (data) {
 		            data = JSON.parse(data);
 		            el.patient = data;
-		            obj.push(el);
 		          })
 		          .catch(function (err) {
-		            // res.status(err.statusCode).send(err.error.message);
-		            console.log(err);
-		            res.status(200).send(obj);
-		            // obj.push(el);
 		          });
-						});
+				});
 			}
-			else {
-				obj = result;
-			}
+			// fix !!!
 			setTimeout(() => {
-				res.status(200).send(obj);
+				res.status(200).send(result);
 			}, 500);
+			// fix !!!
 		} else {
 			res.status(404).send("not found");
 		}
@@ -204,8 +197,18 @@ exports.replaceTodo = (req, res) => {
 					}
 				});
 			})
-			.catch(function (err) {
-				res.status(err.statusCode).send(err.error.message);
+		.catch(function (err) {
+			req.body.patient = 1;
+			// res.status(err.statusCode).send(err.error.message);
+			Todo.replaceOne({ _id: id }, req.body, (err, result) => {
+					if (err) {
+						res.status(500).send(err.message);
+					} else if (result.ok === 1) {
+						res.status(200).send(`successufully replaced object`);
+					} else {
+						res.status(400).send("could not replace object");
+					}
+				});
 			});
 		}
 		else if (req.body.text) {
