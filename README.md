@@ -4,10 +4,8 @@
 ```sh
 $ git clone https://github.com/Justas12/todo-app.git
 $ cd todo-app
-$ git submodule init
-$ git submodule update
-$ docker-compose build
-$ docker-compose up
+$ git submodule update --init
+$ docker-compose up --build
 ```
 
 ### View
@@ -26,7 +24,7 @@ In browser: http://localhost (port 80)
 </pre>
 
 
-### Examples
+### REST Examples
 #### POST
 
 ```
@@ -46,4 +44,94 @@ In browser: http://localhost (port 80)
     "condition": "condition"
   }
 }
+```
+
+### SOAP Examples
+Endpoint: localhost/wsdl
+
+#### Get Todos
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetTodosRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+#### Get Todo
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetTodoRequest>
+         <tem:id>?</tem:id>
+      </tem:GetTodoRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+#### Delete Todos
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:DeleteTodosRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+#### Delete Todo
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:DeleteTodoRequest>
+         <tem:id>?</tem:id>
+      </tem:DeleteTodoRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+#### Add Todo
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:AddTodoRequest>
+         <tem:text>?</tem:text>
+         <tem:patient>?</tem:patient>
+         <!--Optional:-->
+         <tem:completed>?</tem:completed>
+         <!--Optional:-->
+         <tem:due>?</tem:due>
+      </tem:AddTodoRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+#### Update Todo
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:UpdateTodoRequest>
+         <tem:id>?</tem:id>
+         <!--Optional:-->
+         <tem:text>?</tem:text>
+         <!--Optional:-->
+         <tem:patient>?</tem:patient>
+         <!--Optional:-->
+         <tem:completed>?</tem:completed>
+         <!--Optional:-->
+         <tem:due>?</tem:due>
+      </tem:UpdateTodoRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
 ```
