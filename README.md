@@ -49,48 +49,28 @@ In browser: http://localhost (port 80)
 ### SOAP Examples
 Endpoint: localhost/wsdl
 
-#### Get Todos
-
-```xml
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <tem:GetTodosRequest/>
-   </soapenv:Body>
-</soapenv:Envelope>
-```
-
-#### Get Todo
+#### Get Todo/Todos
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <tem:GetTodoRequest>
+         <!--Optional:-->
          <tem:id>?</tem:id>
       </tem:GetTodoRequest>
    </soapenv:Body>
 </soapenv:Envelope>
 ```
 
-#### Delete Todos
-
-```xml
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <tem:DeleteTodosRequest/>
-   </soapenv:Body>
-</soapenv:Envelope>
-```
-
-#### Delete Todo
+#### Delete Todo/Todos
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <tem:DeleteTodoRequest>
+         <!--Optional:-->
          <tem:id>?</tem:id>
       </tem:DeleteTodoRequest>
    </soapenv:Body>
