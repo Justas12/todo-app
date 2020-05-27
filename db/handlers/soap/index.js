@@ -8,7 +8,7 @@ exports.getTodos = async () => {
 		arr.push({
 			id: el._id.toString(),
 			text: el.text,
-			due: el.due,
+			due: el.due ? el.due.toString() : undefined,
 			patient: el.patient,
 			completed: el.completed,
 		});
@@ -22,7 +22,7 @@ exports.getTodo = async (args) => {
 	return {
 		id: result._id.toString(),
 		text: result.text,
-		due: result.due,
+		due: result.due ? result.due.toString() : undefined,
 		patient: result.patient,
 		completed: result.completed,
 	};
@@ -34,7 +34,7 @@ exports.addTodo = async (args) => {
 	return {
 		id: result._id.toString(),
 		text: result.text,
-		due: result.due,
+		due: result.due ? result.due.toString() : undefined,
 		patient: result.patient,
 		completed: result.completed,
 	}
