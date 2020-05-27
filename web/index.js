@@ -23,10 +23,8 @@ app.use("/", routes.mainRouter);
 var service = {
   TodoService: {
     TodoServiceSoapPort: {
-      GetTodos: soapHandlers.getTodos,
       GetTodo: soapHandlers.getTodo,
       AddTodo: soapHandlers.addTodo,
-      DeleteTodos: soapHandlers.deleteTodos,
       DeleteTodo: soapHandlers.deleteTodo,
       UpdateTodo: soapHandlers.updateTodo,
     },

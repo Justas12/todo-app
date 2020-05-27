@@ -1,31 +1,31 @@
 const Todo = require("../../models/todo").Todo;
 
-exports.getTodos = async () => {
-	var arr = [];
-	const result = await Todo.find().exec();
-	console.log(result);
-	result.forEach(el => {
-		arr.push({
-			id: el._id.toString(),
-			text: el.text,
-			due: el.due ? el.due.toString() : undefined,
-			patient: el.patient,
-			completed: el.completed,
-		});
-	});
-	return arr;
-}
-
 exports.getTodo = async (args) => {
-	const result = await Todo.findById(args.id).exec();
-	console.log(result);
-	return {
-		id: result._id.toString(),
-		text: result.text,
-		due: result.due ? result.due.toString() : undefined,
-		patient: result.patient,
-		completed: result.completed,
-	};
+	if (args) {
+		const result = await Todo.findById(args.id).exec();
+		console.log(result);
+		return {
+			id: result._id.toString(),
+			text: result.text,
+			due: result.due ? result.due.toString() : undefined,
+			patient: result.patient,
+			completed: result.completed,
+		};
+	} else {
+		var arr = [];
+		const result = await Todo.find().exec();
+		console.log(result);
+		result.forEach(el => {
+			arr.push({
+				id: el._id.toString(),
+				text: el.text,
+				due: el.due ? el.due.toString() : undefined,
+				patient: el.patient,
+				completed: el.completed,
+			});
+		});
+		return arr;
+	}
 }
 
 exports.addTodo = async (args) => {
@@ -37,23 +37,25 @@ exports.addTodo = async (args) => {
 		due: result.due ? result.due.toString() : undefined,
 		patient: result.patient,
 		completed: result.completed,
-	}
-}
-
-exports.deleteTodos = async () => {
-	let deletedCount = 0;
-	const result = await Todo.deleteMany({}).exec();
-	console.log(result);
-	deletedCount = result.deletedCount;
-	return {
-		deleted: deletedCount,
 	};
 }
 
 exports.deleteTodo = async (args) => {
-	const result = Todo.findByIdAndDelete(args.id).exec();
-	console.log(result);
-	return;
+	let deletedCount = 0;
+	if (args) {
+		const result = await Todo.findByIdAndDelete(args.id).exec();
+		console.log(result);
+		if (result) {
+			deletedCount = 1;
+		}
+	} else {
+		const result = await Todo.deleteMany({}).exec();
+		console.log(result);
+		deletedCount = result.deletedCount;
+	}
+	return {
+		deleted: deletedCount,
+	};
 }
 
 exports.updateTodo = async (args) => {
